@@ -1,0 +1,120 @@
+create database ministra;
+use teste;
+
+create table Cursos (
+CodigoCursos int primary key not null,
+Nome varchar(100) not null,
+Preco decimal(10,2) not null,
+Duracao varchar(50) not null
+);
+
+create table Instrutor (
+CodigoInstrutor int primary key not null,
+Nome varchar(100) not null,
+Endereco varchar(200) not null,
+Telefone varchar(20) not null
+);
+
+create table Certificado (
+CodigoInstrutor int,
+CodigoCursos int,
+primary key (CodigoInstrutor, CodigoCursos),
+foreign key (CodigoInstrutor) references Instrutor(CodigoInstrutor),
+foreign key (CodigoCursos) references Curso(CodigoCursos)
+);
+
+create table Aluno (
+CodigoAluno int primary key not null,
+Nome varchar(100) not null,
+Endereco varchar(200) not null,
+Telefone varchar(20) not null
+);
+
+create table Matricula (
+CodigoAluno int,
+CodigoCursos int,
+DataMatricula date not null,
+Situacao varchar(20), #Ex: confirmado, cancelado, concluído
+primary key (CodigoAluno, CursoCursos),
+foreign key (CodigoAluno) references Aluno(CodigoAluno),
+foreign key (CodigoCursos) references Cursos(CodigoCursos)
+);
+
+create table Alocacao (
+CodigoInstrutor int,
+CodigoCursos int,
+Semana int not null,
+Periodo varchar(20) not null, #Ex: manhã, tarde, noite
+primary key (CodigoInstrutor, CodigoCursos, Semana, Periodo),
+foreign key (CodigoInstrutor) references Instrutor(CodigoInstrutor),
+foreign key (CodigoCursos) references Cursos(CodigoCursos)
+);
+
+
+#CURSOS
+insert into Curso (CodigoCurso, Nome, Preco, Duracao) values
+(1, 'Excel Avançado', 500.00, '5 dias'),
+(2, 'Redes de Computadores', 800.00, '10 noites'),
+(3, 'Manutenção de Computadores', 700.00, '4 sábados'),
+(4, 'Programação em Java', 1200.00, '10 noites'),
+(5, 'Segurança da Informação', 1500.00, '5 dias'),
+(6, 'Banco de Dados SQL', 1000.00, '10 noites'),
+(7, 'Gestão de Projetos', 900.00, '4 sábados');
+
+#INSTRUTORES
+insert into Instrutor (CodigoInstrutor, Nome, Endereco, Telefone) values
+(1, 'Carlos Souza', 'Rua A, 123', '1111-1111'),
+(2, 'Mariana Lima', 'Rua B, 456', '2222-2222'),
+(3, 'José Pereira', 'Rua C, 789', '3333-3333'),
+(4, 'Fernanda Rocha', 'Av. Central, 100', '4444-4444'),
+(5, 'Roberto Silva', 'Rua D, 321', '5555-5555'),
+(6, 'Juliana Martins', 'Rua E, 654', '6666-6666'),
+(7, 'Paulo Henrique', 'Rua F, 987', '7777-7777');
+
+-- ========================
+-- CERTIFICAÇÕES (Instrutores habilitados a ministrar cursos)
+-- Cada instrutor terá certificação em pelo menos 2 cursos
+INSERT INTO Certificacao (CodigoInstrutor, CodigoCurso) VALUES
+(1, 1), (1, 6),
+(2, 2), (2, 5),
+(3, 3), (3, 4),
+(4, 4), (4, 7),
+(5, 1), (5, 2),
+(6, 6), (6, 5),
+(7, 7), (7, 3);
+
+-- ========================
+-- ALUNOS
+-- ========================
+insert into Aluno (CodigoAluno, Nome, Endereco, Telefone) VALUES
+(1, 'Ana Clara', 'Rua G, 100', '8888-1111'),
+(2, 'Bruno Santos', 'Rua H, 200', '8888-2222'),
+(3, 'Carla Nunes', 'Rua I, 300', '8888-3333'),
+(4, 'Diego Alves', 'Rua J, 400', '8888-4444'),
+(5, 'Eduarda Melo', 'Rua K, 500', '8888-5555'),
+(6, 'Felipe Costa', 'Rua L, 600', '8888-6666'),
+(7, 'Gabriela Torres', 'Rua M, 700', '8888-7777');
+
+-- ========================
+-- MATRÍCULAS (alunos inscritos em cursos)
+-- Cada aluno faz pelo menos 1 curso
+insert into Matricula (CodigoAluno, CodigoCurso, DataMatricula, Situacao) VALUES
+(1, 1, '2025-01-10', 'Concluído'),
+(2, 2, '2025-02-05', 'Confirmado'),
+(3, 3, '2025-02-15', 'Confirmado'),
+(4, 4, '2025-03-01', 'Concluído'),
+(5, 5, '2025-03-12', 'Cancelado'),
+(6, 6, '2025-04-20', 'Confirmado'),
+(7, 7, '2025-04-25', 'Confirmado');
+
+-- ========================
+-- ALOCAÇÃO DE INSTRUTORES
+-- Semana + Período garante que não haja conflito
+insert into Alocacao (CodigoInstrutor, CodigoCurso, Semana, Periodo) VALUES
+(1, 1, 1, 'Manhã'),
+(2, 2, 1, 'Noite'),
+(3, 3, 2, 'Tarde'),
+(4, 4, 2, 'Noite'),
+(5, 5, 3, 'Manhã'),
+(6, 6, 3, 'Noite'),
+(7, 7, 4, 'Tarde');

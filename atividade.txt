@@ -1,0 +1,36 @@
+CREATE TABLE cadlivros (
+    id int not null primary key,
+    titulo varchar(255) not null,
+    autor char(255) not null,
+    idade int,
+    ano_publicacao char(10)
+);
+RENAME TABLE cadlivros TO livros;
+
+ALTER TABLE livros
+modify column ano_publicacao INT NOT NULL;
+
+ALTER TABLE livros
+add column genero VARCHAR(50);
+
+ALTER TABLE livros
+ADD quant_disponivel INT;
+
+ALTER TABLE livros
+modify column titulo VARCHAR(50);
+
+ALTER TABLE livros
+DROP COLUMN idade;
+
+ALTER TABLE cadlivros
+modify COLUMN ano_publicacao INT;
+
+ALTER TABLE cadlivros
+ADD editora VARCHAR(50) NOT NULL;
+
+SELECT * FROM livros;
+
+INSERT INTO livros (id, titulo, autor, anopubl, genero, quantdisp, editora)
+VALUES (2007, 'Karl Max', 'Um manisfesto comuinsta', 1848, 'Politica e auto desenvolvimento', 200, 'Editora Lula');
+
+SELECT * FROM livros;
