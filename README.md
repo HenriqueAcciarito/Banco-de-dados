@@ -1,2 +1,2 @@
 # Banco-de-dados
-atividades atrasadas do Marcio
+atividades do Marcio
